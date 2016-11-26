@@ -24,16 +24,13 @@ namespace RPSLS
         public void creatingPlayer()
         {
             Console.WriteLine("You're a Homosapien!  Get ready to play Rock, Paper, Scissors, Lizard, Spock!");
-            //Player Human = new Human(Console.ReadLine());
-            //return Human;
+
         }
 
         public void makePC()
         {
             Console.WriteLine("Skynet will be playing you!");
-               
-            //Player computer = new Computer("SkyNet");
-            //return computer;
+
         }
 
         public void StartGame()
@@ -42,17 +39,20 @@ namespace RPSLS
             askingTwoPlayers();
             makePC();
             Start();
-            Console.WriteLine("You will be be selecting a number 1-5 for each corresponding choice.  Choose rock (1), paper (2), scissors (3), lizard (4), spock (5)");
-            //use a write or writeline to promt the use for an input
-            //write a readline code to accept an interger as string, convert to int
-            int playerChoice = Convert.ToInt32(Console.ReadLine());
-            //call for computer input
-            int cpuChoice = computerchoice();
-            //tell player what choice the computer has made
-            analayzeChoices(playerChoice, cpuChoice);
-            //CALL METHOD TO PLAY AGAIN OR EXIT//
-        }
+            while (true)
+            {
+                Console.WriteLine("You will be be selecting a number 1-5 for each corresponding choice.  Choose rock (1), paper (2), scissors (3), lizard (4), spock (5)");
+                int playerChoice = Convert.ToInt32(Console.ReadLine());
+                int cpuChoice = computerchoice();
+                analayzeChoices(playerChoice, cpuChoice);
+                Console.WriteLine("--------------------------------------------------------------------------------------------");
+                if (isCPUWin() || isPlayerWin())
+                    break;
+            }
+            declareWinner();
 
+
+        }
 
         public string askingTwoPlayers()
         {
@@ -71,9 +71,7 @@ namespace RPSLS
             int spock = 5;
         }
 
-       
-        /// /PUBLIC VOID START GAME was here
-        
+
         public int computerchoice()
         {
             return random.Next(4) + 1;
@@ -87,32 +85,31 @@ namespace RPSLS
             //ROCK
             if (playerObj == "Rock" && cpuObj == "Paper")
             {
-               victoryMessage = "Paper covers Rock!";
+                victoryMessage = "Paper covers Rock!";
                 declareSessionWinner(playerObj, cpuObj, victoryMessage, false);//false for computer wins
-                if (isCPUWin())
-                {
-                    isCPUVictory = true;
-                    declareWinner();
-                }
+                cpuWins++;
+            
             }
-           else if (playerObj == "Rock" && cpuObj == "Scissors")
+            if (playerObj == "Rock" && cpuObj == "Scissors")
             {
-                    victoryMessage = "Rock Smashes Scissors";
-                    declareSessionWinner(playerObj, cpuObj, victoryMessage, true);//true for player wins
-                   
-                    if (isPlayerWin())
-                    {
-                        isPlayerVictory = true;
-                        declareWinner();
-                    }
-                }
+                victoryMessage = "Rock Smashes Scissors!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);//true for player wins
+                playerWins++;
+            }
             if (playerObj == "Rock" && cpuObj == "Lizard")
             {
-                Console.WriteLine("Rock crushes Lizard!");
+                victoryMessage = "Rock crushes Lizard!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                playerWins++;
+
             }
             if (playerObj == "Rock" && cpuObj == "Spock")
             {
-                Console.WriteLine("Spock vaporizes Rock!");
+                {
+                    victoryMessage = "Spock vaporizes Rock!";
+                    declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                    cpuWins++;
+                }
             }
             if (playerObj == "Rock" && cpuObj == "Rock")
             {
@@ -121,16 +118,24 @@ namespace RPSLS
             //PAPER
             if (playerObj == "Paper" && cpuObj == "Scissors")
             {
-                Console.WriteLine("Scissors cuts Paper!");
-            };
+                victoryMessage = "Scissors cuts Paper!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
+            }
+
             if (playerObj == "Paper" && cpuObj == "Lizard")
             {
-                Console.WriteLine("Lizard eats Paper!");
-            };
+                victoryMessage = "Lizard eats Paper!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
+            }
             if (playerObj == "Paper" && cpuObj == "Spock")
             {
-                Console.WriteLine("Paper disproves Spock!");
-            };
+                victoryMessage = "Paper disproves Spock!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                playerWins++;
+            }
+
             if (playerObj == "Paper" && cpuObj == "Paper")
             {
                 Console.WriteLine("Tie!");
@@ -138,12 +143,16 @@ namespace RPSLS
             //SCISSORS 
             if (playerObj == "Scissors" && cpuObj == "Lizard")
             {
-                Console.WriteLine("Scissors decapitates Lizard!");
-            };
+                victoryMessage = "Scissors decapitates Lizard!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                playerWins++;
+            }
             if (playerObj == "Scissors" && cpuObj == "Spock")
             {
-                Console.WriteLine("Spock smashes Scissors!");
-            };
+                victoryMessage = "Spock smashes Scissors!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
+            }
             if (playerObj == "Scissors" && cpuObj == "Scissors")
             {
                 Console.WriteLine("Tie!");
@@ -151,77 +160,106 @@ namespace RPSLS
             //LIZARD
             if (playerObj == "Lizard" && cpuObj == "Spock")
             {
-                Console.WriteLine("Lizard poisons Spock!");
-            };
+                victoryMessage = "Lizard poisons Spock!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                playerWins++;
+            }
             if (playerObj == "Lizard" && cpuObj == "Lizard")
             {
                 Console.WriteLine("Tie!");
             };
             //SPOCK
+            if (playerObj == "Spock" && cpuObj == "Rock")
+            {
+                victoryMessage = "Spock vaporizes Rock!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                playerWins++;
+            }
+
             if (playerObj == "Spock" && cpuObj == "Spock")
             {
                 Console.WriteLine("Tie!");
             };
 
-            /////CPU below is to the left!
+            ///CPU below is to the left!
 
             //ROCK
-            if (cpuObj == "Rock" && playerObj == "Paper")
+            if (playerObj == "Paper" && cpuObj == "Rock")
             {
-                //Console.WriteLine("You chose Paper and Skynet  chosed Rock");
-                //Console.WriteLine("Paper covers Rock!");
-                //Console.WriteLine("You win this session");
+                victoryMessage = "Paper covers Rock!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                playerWins++;
             }
-            if (cpuObj == "Rock" && playerObj == "Scissors")
+            if (playerObj == "Scissors" && cpuObj == "Rock")
             {
-                Console.WriteLine("Rock smashes Scissors!");
-            };
-            if (cpuObj == "Rock" && playerObj == "Lizard")
-            {
-                Console.WriteLine("Rock crushes Lizard!");
+                victoryMessage = "Rock smashes Scissors!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
             }
-            if (cpuObj == "Rock" && playerObj == "Spock")
+            if (playerObj == "Lizard" && cpuObj == "Rock")
             {
-                Console.WriteLine("Spock vaporizes Rock!");
+                victoryMessage = "Rock crushes Lizard!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
             }
+            if (playerObj == "Rock" && cpuObj == "Spock")
+            {
+                victoryMessage = "Spock vaporizes Rock!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
+            }
+
             if (cpuObj == "Rock" && playerObj == "Rock")
             {
                 Console.WriteLine("Tie!");
             }
             //PAPER
-            if (cpuObj == "Paper" && playerObj == "Scissors")
+            if (playerObj == "Scissors" && cpuObj == "Paper")
             {
-                Console.WriteLine("Scissors cuts Paper!");
+                victoryMessage = "Scissors cuts Paper!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                cpuWins++;
             }
-            if (cpuObj == "Paper" && playerObj == "Lizard")
+            if (playerObj == "Lizard" && cpuObj == "Paper")
             {
-                Console.WriteLine("Lizard eats Paper!");
+                victoryMessage = "Lizard eats Paper!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                playerWins++;
             }
-            if (cpuObj == "Paper" && playerObj == "Spock")
+            if (playerObj == "Spock" && cpuObj == "Paper")
             {
-                Console.WriteLine("Paper disproves Spock!");
+                victoryMessage = "Paper disproves Spock!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
+                
             }
             if (cpuObj == "Paper" && playerObj == "Paper")
             {
                 Console.WriteLine("Tie!");
             }
             //SCISSORS 
-            if (cpuObj == "Scissors" && playerObj == "Lizard")
+            if (playerObj == "Lizard" && cpuObj == "Scissors")
             {
-                Console.WriteLine("Scissors decapitates Lizard!");
+                victoryMessage = "Scissors decapitates Lizard!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
             }
-            if (cpuObj == "Scissors" && playerObj == "Spock")
+            if (playerObj == "Spock" && cpuObj == "Scissors")
             {
-                Console.WriteLine("Spock smashes Scissors!");
-            };
+                victoryMessage = "Spock smashes Scissors!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, true);
+                playerWins++;
+            }
             if (cpuObj == "Scissors" && playerObj == "Scissors")
             {
                 Console.WriteLine("Tie!");
             }
             //LIZARD
-            if (cpuObj == "Lizard" && playerObj == "Spock")
+            if (playerObj == "Spock" && cpuObj == "Lizard")
             {
-                Console.WriteLine("Lizard poisons Spock!");
+                victoryMessage = "Lizard poisons Spock!";
+                declareSessionWinner(playerObj, cpuObj, victoryMessage, false);
+                cpuWins++;
             }
             if (cpuObj == "Lizard" && playerObj == "Lizard")
             {
@@ -232,33 +270,35 @@ namespace RPSLS
             {
                 Console.WriteLine("Tie!");
             }
+
         }
 
         private void declareSessionWinner(string playerObj, string cpuObj, string victoryMessage, bool isPlayerWin)
         {
-            Console.WriteLine("You chose {0} and Skynet  chosed {1}", playerObj, cpuObj);
+            Console.WriteLine("You chose {0} and Skynet chose {1}", playerObj, cpuObj);
             Console.WriteLine(victoryMessage);
             if (isPlayerWin)
                 Console.WriteLine("You win this session");
+
             else
-                Console.WriteLine("Oops Skynet wins this sessiong");
+                Console.WriteLine("Oops Skynet wins this session");
         }
 
         private bool isCPUWin()
         {
-            return cpuWins++ == MAXWINS;
+            return cpuWins == MAXWINS;
         }
 
         private bool isPlayerWin()
         {
-            return playerWins++ == MAXWINS;
+            return playerWins == MAXWINS;
         }
         private void declareWinner()
         {
-            if (isCPUVictory)
-                Console.WriteLine("Computer out played you this time! registering the maximum wins of three");
-            else
-                Console.WriteLine("You win...Congratultion...You have registered three wins");
+            if (isCPUWin())
+                Console.WriteLine("Skynet out played you this time!");
+            else if(isPlayerWin())
+                Console.WriteLine("You win...Congratulations...You have registered three wins");
         }
 
         private string interpretPlayerChoice(int choice)
@@ -288,44 +328,20 @@ namespace RPSLS
 
             return playerobj;
         }
-        
-       
-        public  bool playAgain()//static in this context means that you do not need an instance of the class to call this method
-        {//this method can be call directly with the class name. eg. Game.playAgain()
-            Console.WriteLine("Play again?(y/n)");
-            String playerreset = Console.ReadLine();
-            if (playerreset=="y")
-            {
-                return true;
-            }
-            else if (playerreset=="n")
-            {
-                return false;
-            }
-            else
-            {
-                Console.WriteLine("Invalid Input");
-
-            }
-
-
-            return false;
-        }
     }
-               
-    }
+}
 
 
-     
 
 
-    
 
 
-   
 
-    
-    
+
+
+
+
+
 
 
 
